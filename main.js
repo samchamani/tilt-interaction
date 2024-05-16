@@ -1,49 +1,26 @@
-import './style.css'
+import "./style.css";
 
-const word = document.querySelector(".tilting-word")
-window.addEventListener('deviceorientation', handleDeviceOrientation, false)
+// Permission check
+if (DeviceOrientationEvent.requestPermission) {
+  (async () => {
+    const granted = await DeviceOrientationEvent.requestPermission();
+    if (granted === "granted") {
 
-let count = 0
-function handleDeviceOrientation(event) {
-  count += 1;
-  if (count % 5 === 0){
-    word.style.filter = `drop-shadow(${-event.gamma}px ${-event.beta}px 2px salmon)`
-    word.style.transform = `skewX(${event.gamma/3}deg)`
-    console.log(word.style.transform)
-  }
+      // add listener
+      const word = document.querySelector(".tilting-word");
+      window.addEventListener("deviceorientation",handleDeviceOrientation,false);
+
+      let count = 0;
+      function handleDeviceOrientation(event) {
+        count += 1;
+        // use count to reduce the changes to the DOM
+        if (count % 5 === 0) {
+
+          // apply styles based on device orientation angles
+          word.style.filter = `drop-shadow(${-event.gamma}px ${-event.beta}px 2px salmon)`;
+          word.style.transform = `skewX(${event.gamma / 3}deg)`;
+        }
+      }
+    }
+  })();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function endlessLoop() {
-//   setTimeout(doAnimation, 100)
-// }
-// let x = 0
-// let y = 0
-
-// function doAnimation(){
-//   word.style.filter = `drop-shadow(${x}px ${40 + y/10}px 2px salmon)`
-
-//   // x++
-//   // y++
-//   console.log(x,y, word.style.filter)
-//   endlessLoop()
-// }
-
-// endlessLoop()
-
-// filter: drop-shadow(0px 0px 2px salmon); style="filter: drop-shadow(42px 42px 2px salmon)"
-// transform: rotate3d(0, 0, 0, 45deg);
-
-{/* <button class="request-button">Request</button> */}
